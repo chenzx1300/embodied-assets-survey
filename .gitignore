@@ -1,0 +1,25 @@
+# L20 部署相关(本地实验)
+deploy_l20.sh
+package_for_l20.sh
+package_partial.sh
+download_engine_ckpts.py
+L20_DEPLOY.md
+
+# Claude Code 配置
+.claude/
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# 临时构建产物
+*.tmp
+*.bak
+node_modules/
+__pycache__/
+*.pyc
