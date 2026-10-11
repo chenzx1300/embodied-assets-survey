@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>具身机器人训练资产深度调研 · 总览 / Embodied AI Industrial Asset Survey — Hub (v3 重写版)</title>
+<meta name="description" content="为具身机器人训练生成可交互工业资产的双轨调研：Direction A 视频→可交互资产 / Direction B 图片→可交换资产。VLM 介入深度谱、OVOW + SimFoundry 双引擎、12 周实施路径。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\[',right:'\\]',display:true},{left:'\\(','\\)',display:true}]});"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true, theme:'default', securityLevel:'loose'});</script>
+<style>
+  :root{
+    --bg:#0f1419;
+    --card:#1a2027;
+    --ink:#e6edf3;
+    --muted:#8b949e;
+    --brand:#58a6ff;
+    --brand2:#79c0ff;
+    --accent:#f78166;
+    --good:#3fb950;
+    --warn:#d29922;
+    --bad:#f85149;
+    --line:#30363d;
+  }
+  @media (prefers-color-scheme: light){
+    :root{--bg:#fafbfc;--card:#ffffff;--ink:#1f2328;--muted:#57606a;--line:#d0d7de;}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',Helvetica,Arial,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .container{max-width:1080px;margin:0 auto;padding:32px 24px 96px}
+  header.hero{
+    background:linear-gradient(135deg,#1f2937 0%,#0f172a 50%,#0c4a6e 100%);
+    color:#fff;border-radius:14px;padding:48px 36px;margin-bottom:32px;position:relative;overflow:hidden;
+  }
+  header.hero::before{content:"";position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(88,166,255,.3) 0%,transparent 70%);pointer-events:none}
+  header.hero h1{margin:0 0 12px;font-size:34px;font-weight:700;letter-spacing:-0.5px;position:relative}
+  header.hero .sub{margin:0;font-size:17px;color:#cbd5e1;font-weight:400;position:relative}
+  header.hero .tag{display:inline-block;margin-top:18px;padding:5px 12px;background:rgba(88,166,255,.2);border:1px solid rgba(88,166,255,.4);border-radius:20px;font-size:13px;color:#79c0ff;position:relative}
+  .hero .badges{margin-top:18px;position:relative}
+  .hero .badge{display:inline-block;padding:4px 10px;background:rgba(63,185,80,.15);border:1px solid rgba(63,185,80,.4);border-radius:16px;font-size:11px;color:#7ee787;margin-right:6px}
+  section{margin-bottom:48px;scroll-margin-top:24px}
+  h2{font-size:26px;margin:0 0 18px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+  h3{font-size:20px;margin:24px 0 12px;color:var(--brand2)}
+  h4{font-size:16px;margin:18px 0 8px;color:var(--ink)}
+  p{margin:10px 0}
+  .lead{font-size:17px;color:var(--muted);font-style:italic}
+  .callout{background:var(--card);border-left:4px solid var(--brand);padding:16px 20px;border-radius:6px;margin:16px 0;border:1px solid var(--line)}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout.good{border-left-color:var(--good)}
+  .callout strong{color:var(--brand2)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:18px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .card h4{margin-top:0}
+  .card a.btn{display:inline-block;margin-top:10px;padding:6px 14px;background:rgba(88,166,255,.15);border:1px solid rgba(88,166,255,.4);border-radius:6px;color:var(--brand);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s}
+  .card a.btn:hover{background:rgba(88,166,255,.25);text-decoration:none}
+  .card.feature{border-color:rgba(63,185,80,.4)}
+  .card.feature h4{color:var(--good)}
+  .card.feature a.btn{background:rgba(63,185,80,.15);border-color:rgba(63,185,80,.4);color:var(--good)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:var(--card);font-weight:600;color:var(--brand2)}
+  tbody tr:nth-child(even){background:rgba(88,166,255,.04)}
+  .mermaid{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;margin:18px 0;text-align:center}
+  .pill{display:inline-block;padding:2px 8px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:12px;color:var(--muted);margin-right:4px}
+  .pill.good{color:var(--good);border-color:var(--good)}
+  .pill.warn{color:var(--warn);border-color:var(--warn)}
+  .pill.bad{color:var(--bad);border-color:var(--bad)}
+  .small{font-size:13px;color:var(--muted)}
+  footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:var(--brand);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="hero">
+  <h1>具身机器人训练资产深度调研</h1>
+  <p class="sub">Embodied AI · Industrial Asset Generation · Deep Survey (2026-10, v3)</p>
+  <div class="tag">为具身机器人训练生成可交互工业资产 · Generating Interactive Industrial Assets for Embodied Robot Training</div>
+  <div class="badges">
+    <span class="badge">48+ papers surveyed</span>
+    <span class="badge">2025–2026</span>
+    <span class="badge">2 directions</span>
+    <span class="badge">12-week MVP</span>
+  </div>
+</header>
+
+<section>
+  <h2 id="question">核心问题 / Core Question</h2>
+  <p class="lead">
+    具身机器人训练需要海量"机器人做某件事"的数据,但真实遥操作成本极高(数千美元/小时),且仿真器里没有那么多螺丝钉、连接件。
+  </p>
+  <p>
+    <em>Embodied robot training needs massive "robot doing something" data, but real teleop is prohibitively expensive ($thousands/hr) and simulators lack industrial parts (screws, connectors, fasteners).</em>
+  </p>
+  <div class="callout">
+    <strong>目标 / Goal:</strong> 用一段手机视频或一张图片,在<strong>几秒钟到几小时</strong>内,自动生成可被 Isaac Sim / MuJoCo / Genesis 读取的<strong>几何精确、物理可信、可交互</strong>的工业资产。
+    <br><br>
+    <em>Goal: From a phone video or a single image, in seconds-to-hours, automatically generate <strong>geometry-accurate, physics-plausible, interactive</strong> industrial assets readable by Isaac Sim / MuJoCo / Genesis.</em>
+  </div>
+</section>
+
+<section>
+  <h2 id="directions">双轨调研 / Two Directions</h2>
+  <p>本调研分两个互补方向展开,根据输入模态选择:</p>
+  <div class="grid">
+    <div class="card feature">
+      <h4>📹 Direction A · 视频 → 可交互资产</h4>
+      <p><strong>输入 / Input:</strong> 手机拍摄的工业操作视频</p>
+      <p><strong>输出 / Output:</strong> 4D Gaussian + 物理反演 → USD/URDF</p>
+      <p><strong>适用 / Use:</strong> 已有动作数据、需要时序几何、含铰链/滑动件</p>
+      <p><strong>核心引擎 / Engines:</strong> <span class="pill good">OVOW</span><span class="pill good">NVIDIA SimFoundry</span></p>
+      <a class="btn" href="video-to-interactive-assets.html">→ 进入 Direction A / Open</a>
+    </div>
+    <div class="card">
+      <h4>🖼️ Direction B · 图片 → 可交换资产</h4>
+      <p><strong>输入 / Input:</strong> 单张工业零件图片</p>
+      <p><strong>输出 / Output:</strong> TRELLIS.2 / Amodal3R → 可交换 USD</p>
+      <p><strong>适用 / Use:</strong> 单件重建、批量资产生成、目录式数据扩展</p>
+      <p><strong>核心引擎 / Engines:</strong> <span class="pill good">TRELLIS.2</span><span class="pill">Amodal3R</span></p>
+      <a class="btn" href="image-to-exchangeable-assets.html">→ 进入 Direction B / Open</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 id="routes">技术路线速览 / Technical Routes at a Glance</h2>
+  <table>
+    <thead>
+      <tr><th>路线 / Route</th><th>输入 / Input</th><th>输出 / Output</th><th>工业落地度 / Industrial Readiness</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>3.1 2D 像素世界模型</td><td>视频</td><td>2D 像素</td><td><span class="pill bad">❌ 不适合</span></td></tr>
+      <tr><td>3.2 4D Gaussian Splatting</td><td>视频</td><td>4D 高斯点云</td><td><span class="pill warn">⚠️ 可视化好,仿真差</span></td></tr>
+      <tr><td>3.3 视频重建 + 物理反演</td><td>视频</td><td>USD/URDF</td><td><span class="pill good">✅ 接近落地</span></td></tr>
+      <tr><td>3.4 Cosmos + Newton 混合</td><td>视频</td><td>USD 场景</td><td><span class="pill good">✅ NVIDIA 官方推荐</span></td></tr>
+      <tr><td><strong>3.5 VLM + 专用几何 ★</strong></td><td>视频/图片</td><td>URDF/USD</td><td><span class="pill good">✅ ★★★★★ 最高</span></td></tr>
+      <tr><td>3.6 3D-first 视频生成</td><td>3D</td><td>4D 视频</td><td><span class="pill warn">⚠️ 暂不适用</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2 id="vlm">VLM 介入深度谱 / VLM Intervention Spectrum (0–4)</h2>
+  <p>LLM/VLM 不应做主力。最佳介入点是"<strong>语义路由</strong>"(档位 2)。</p>
+  <p><em>LLM/VLM shouldn't do the heavy lifting. The sweet spot is "semantic routing" (level 2).</em></p>
+  <div class="mermaid">
+flowchart LR
+  L0["<b>0</b> 纯几何<br/>Pure Geometry"]
+  L1["<b>1</b> 命名实体<br/>Named Entities"]
+  L2["<b>2</b> 语义路由 ★<br/>Semantic Routing"]
+  L3["<b>3</b> 物理反演引导<br/>Physics Inversion Guide"]
+  L4["<b>4</b> 端到端生成<br/>End-to-end"]
+  L0 --> L1 --> L2 --> L3 --> L4
+  style L2 fill:#3fb950,stroke:#3fb950,color:#0f1419
+  </div>
+</section>
+
+<section>
+  <h2 id="conclusions">关键结论 / Key Conclusions</h2>
+  <ol>
+    <li><strong>VLM 介入深度谱(0–4):</strong>LLM 不应做主力,只在"语义路由"(档位 2)介入最经济 / LLM shouldn't do the heavy lifting; "semantic routing" (level 2) is the sweet spot.</li>
+    <li><strong>OVOW + NVIDIA SimFoundry 双引擎:</strong>学术 + 工业互补,无需从零造轮子 / Academic + industrial complementarity; no need to reinvent.</li>
+    <li><strong>光轮智能是数据上游:</strong>80% 头部具身团队都在用其数据,直接合作优于自建 / 80% of top embodied teams use its data; partnership beats in-house.</li>
+    <li><strong>TRELLIS.2 是当前 SOTA 几何生成器:</strong>开源 + 商业可用,优先采用 / SOTA geometry generator; open-source + commercially usable.</li>
+    <li><strong>3 个月实施 MVP:</strong>W1 商务并行启动 + OVOW/SimFoundry 双引擎并行,可压到 12 周 / W1 biz-dev parallel start + dual-engine parallel → 12 weeks.</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="stack">推荐技术栈 / Recommended Stack</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>视频 → 4D 几何 / Video → 4D Geometry</h4>
+      <p><span class="pill">OnePoseViaGen</span><span class="pill">4D Gaussian Splatting</span><span class="pill">MoGe-vitl</span></p>
+      <p class="small">方向 A 重建层。手机视频 → 时序 3D 高斯。</p>
+    </div>
+    <div class="card">
+      <h4>几何生成器 / Geometry Generators</h4>
+      <p><span class="pill good">TRELLIS.2</span><span class="pill">Amodal3R</span><span class="pill">Hunyuan3D-2</span></p>
+      <p class="small">方向 B 单图重建 + 方向 A 几何增强。</p>
+    </div>
+    <div class="card">
+      <h4>物理与仿真 / Physics & Simulation</h4>
+      <p><span class="pill">Newton (NVIDIA)</span><span class="pill">Isaac Sim</span><span class="pill">Genesis</span></p>
+      <p class="small">物理可信 + 关节/连接件反演。</p>
+    </div>
+    <div class="card">
+      <h4>语义路由 / Semantic Routing</h4>
+      <p><span class="pill">Qwen3-VL</span><span class="pill">Gemini 2.5 Pro</span></p>
+      <p class="small">仅在档位 2 介入,不主导几何生成。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 id="methodology">调研方法 / Methodology</h2>
+  <ul>
+    <li><strong>范围 / Scope:</strong> 2025–2026 年 48+ 篇论文 / arXiv / 官方博客 / 产品发布</li>
+    <li><strong>多源对抗式核实 / Adversarial verification:</strong> 每条关键论断至少 2 个独立信源</li>
+    <li><strong>量化对比 / Quantitative comparison:</strong> 几何精度、物理属性、可导出格式、训练成本、sim-to-real gap</li>
+    <li><strong>第一性原理 / First principles:</strong> 从"信息瓶颈"出发,推导 6 条技术路线的合理分工</li>
+    <li><strong>行业全景 / Industry sweep:</strong> NVIDIA / Google DeepMind / Physical Intelligence / Tesla / Figure / 1X / Unitree / 智元 / 银河智元 / 光轮智能</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="timeline">版本历史 / Version History</h2>
+  <table>
+    <thead><tr><th>版本 / Version</th><th>日期 / Date</th><th>重大变更 / Major Changes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>v3 重写版</strong></td><td>2026-10-11</td><td>VLM 介入深度谱(0–4)骨架;§7 实施路径压到 12 周 / VLM depth spectrum (0-4) skeleton; §7 implementation path compressed to 12 weeks</td></tr>
+      <tr><td>v2 扩展版</td><td>2026-Q3</td><td>加入 OVOW + SimFoundry / Added OVOW + SimFoundry</td></tr>
+      <tr><td>v1 初版</td><td>2026-Q2</td><td>6 条技术路线初稿 / Draft of 6 technical routes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2 id="cite">引用 / Citation</h2>
+<pre>@misc{chen2026_embodied_assets_survey,
+  author = {Zhou, Xing Chen},
+  title = {Generating Interactive Industrial Assets for Embodied Robot Training: A Deep Survey},
+  year = {2026},
+  month = {10},
+  url = {https://github.com/chenzx1300/embodied-assets-survey}
+}</pre>
+</section>
+
+<footer>
+  <p>
+    📚 <a href="video-to-interactive-assets.html">Direction A</a> ·
+    <a href="image-to-exchangeable-assets.html">Direction B</a> ·
+    <a href="https://github.com/chenzx1300/embodied-assets-survey">GitHub Repo</a>
+  </p>
+  <p>
+    报告采用 <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> 许可。
+    引用的论文 / 产品 / 博客版权归原作者所有。
+  </p>
+  <p class="small">
+    v3 重写版 · 2026-10-11 · Built on GitHub Pages from <code>/docs</code>
+  </p>
+</footer>
+
+</div>
+</body>
+</html>
